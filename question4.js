@@ -1,72 +1,66 @@
 class Task {
     constructor(id, name, description) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
+      this.id = id;
+      this.name = name;
+      this.description = description;
     }
-}
-
-// Task management system
-class TaskManager {
-    constructor() {
-        this.tasks = [];
-        this.nextId = 1;
+  }
+  
+  // storage for tasks
+  let tasks = [];
+  let nextId = 1; // Auto-increment ID for new tasks
+  
+  
+  // creating new tasks
+  function addTask(name, description) {
+    const task = new Task(nextId++, name, description);
+    tasks.push(task);
+    console.log(`Task added: ${task.name}`);
+  }
+  
+  // reading all tasks
+  function viewAllTasks() {
+    if (tasks.length === 0) {
+      console.log("No tasks found.");
+    } else {
+      console.log("Tasks:");
+      tasks.forEach((task) => {
+        console.log(`ID: ${task.id}, Name: ${task.name}, Description: ${task.description}`);
+      });
     }
-
-    // Add a new task
-    addTask(name, description) {
-        const task = new Task(this.nextId++, name, description);
-        this.tasks.push(task);
-        return task;
+  }
+  
+  // updating all tasks
+  function updateTask(id, newName, newDescription) {
+    const task = tasks.find((task) => task.id === id);
+    if (task) {
+      task.name = newName || task.name; // update name if provided
+      task.description = newDescription || task.description; // update description
+      console.log(`Task updated: ${task.name}`);
+    } else {
+      console.log(`Task with ID ${id} not found.`);
     }
-
-    // View all tasks
-    viewTasks() {
-        return this.tasks;
+  }
+  
+  // delete a task
+  function deleteTask(id) {
+    const taskIndex = tasks.findIndex((task) => task.id === id);
+    if (taskIndex !== -1) {
+      const deletedTask = tasks.splice(taskIndex, 1)[0];
+      console.log(`Task deleted: ${deletedTask.name}`);
+    } else {
+      console.log(`Task with ID ${id} not found.`);
     }
-
-    // Update a task
-    updateTask(id, name, description) {
-        const task = this.tasks.find(task => task.id === id);
-        if (task) {
-            task.name = name;
-            task.description = description;
-            return task;
-        } else {
-            return null;
-        }
-    }
-
-    // Delete a task
-    deleteTask(id) {
-        const index = this.tasks.findIndex(task => task.id === id);
-        if (index !== -1) {
-            return this.tasks.splice(index, 1)[0];
-        } else {
-            return null;
-        }
-    }
-}
-
-// Example usage
-const taskManager = new TaskManager();
-
-// Add tasks
-taskManager.addTask('Coding', 'Create a new project');
-taskManager.addTask('Shopping', 'Buy groceries');  
-taskManager.addTask('Studying', 'Studying for the exam');
-
-// View tasks
-console.log(taskManager.viewTasks());
-
-// Update a task
-taskManager.updateTask(1, 'Updated Task 1', 'Updated Description 1');
-
-// View tasks after update
-console.log(taskManager.viewTasks());
-
-// Delete a task
-taskManager.deleteTask(2);
-
-// View tasks after deletion
-console.log(taskManager.viewTasks());
+  }
+  
+  // 
+  
+  addTask("Coding", "creating a project");
+  addTask("Studying", "studying for the exam");
+  viewAllTasks();
+  
+  updateTask(1, "Coding", "creating a new project");
+  viewAllTasks();
+  
+  deleteTask(1);
+  viewAllTasks();
