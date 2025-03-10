@@ -10,3 +10,4 @@ app.listen(PORT, () => {
 app.get('/test', (req, res) => { ////defining a route /test that sends a JSON response
     res.send('Express is working! John Manuel Planas');
 });
+
